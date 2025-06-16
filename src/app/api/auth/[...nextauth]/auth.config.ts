@@ -76,7 +76,7 @@ export const authOptions: AuthOptions = {
                             `INSERT INTO users (name, email, role, image) 
                              VALUES ($1, $2, $3, $4) 
                              RETURNING *`,
-                            [user.name, user.email, "Admin", user.image || null]
+                            [user.name, user.email, "admin", user.image || null]
                         );
 
                         if (newUser.length > 0) {
