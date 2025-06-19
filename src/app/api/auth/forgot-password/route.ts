@@ -17,7 +17,7 @@ export async function POST(req: NextRequest) {
 
     // Check if the users exists in the database
     const userQuery = await db.query("SELECT * FROM \"users\" WHERE email = $1", [email]);
-    if (userQuery.rows.length === 0) {
+    if (userQuery.rows.length == 0) {
       return NextResponse.json({ message: "User not found" }, { status: 404 });
     }
 

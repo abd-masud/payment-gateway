@@ -17,7 +17,7 @@ export const MerchantsListTable: React.FC<UsersTableProps> = ({
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [currentUser, setCurrentUser] = useState<Users | null>(null);
-  const [userToDelete, setUserToDelete] = useState<Users | null>(null);
+  const [merchantToDelete, setMerchantToDelete] = useState<Users | null>(null);
   const [searchText, setSearchText] = useState("");
   const [deleteConfirmationText, setDeleteConfirmationText] = useState("");
   const [userMessage, setUserMessage] = useState<string | null>(null);
@@ -33,13 +33,13 @@ export const MerchantsListTable: React.FC<UsersTableProps> = ({
     }
   `;
 
-  const showEditModal = (user: Users) => {
-    setCurrentUser(user);
+  const showEditModal = (merchant: Users) => {
+    setCurrentUser(merchant);
     setIsEditModalOpen(true);
   };
 
-  const showDeleteModal = (user: Users) => {
-    setUserToDelete(user);
+  const showDeleteModal = (merchant: Users) => {
+    setMerchantToDelete(merchant);
     setDeleteConfirmationText("");
     setIsDeleteModalOpen(true);
   };
@@ -53,8 +53,8 @@ export const MerchantsListTable: React.FC<UsersTableProps> = ({
 
     if (!searchText) return sortedUsers;
 
-    return sortedUsers.filter((user) =>
-      Object.values(user).some(
+    return sortedUsers.filter((merchant) =>
+      Object.values(merchant).some(
         (value) =>
           value &&
           value.toString().toLowerCase().includes(searchText.toLowerCase())
@@ -73,10 +73,10 @@ export const MerchantsListTable: React.FC<UsersTableProps> = ({
       });
 
       if (!response.ok) {
-        throw new Error("Failed to update user");
+        throw new Error("Failed to update merchant");
       }
 
-      setUserMessage("User updated");
+      setUserMessage("Merchant updated");
       setIsEditModalOpen(false);
       fetchUsers();
     } catch (err) {
@@ -88,7 +88,7 @@ export const MerchantsListTable: React.FC<UsersTableProps> = ({
   };
 
   const handleDelete = async () => {
-    if (!userToDelete) return;
+    if (!merchantToDelete) return;
 
     try {
       const response = await fetch("/api/users", {
@@ -96,14 +96,14 @@ export const MerchantsListTable: React.FC<UsersTableProps> = ({
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ id: userToDelete.id }),
+        body: JSON.stringify({ id: merchantToDelete.id }),
       });
 
       if (!response.ok) {
-        throw new Error("Failed to delete user");
+        throw new Error("Failed to delete merchant");
       }
 
-      setUserMessage("User deleted");
+      setUserMessage("Merchant deleted");
       setIsDeleteModalOpen(false);
       setDeleteConfirmationText("");
       fetchUsers();
@@ -139,6 +139,8 @@ export const MerchantsListTable: React.FC<UsersTableProps> = ({
     {
       title: "Status",
       dataIndex: "status",
+      render: (status: string) =>
+        status.charAt(0).toUpperCase() + status.slice(1),
     },
     {
       title: "Action",
@@ -189,7 +191,7 @@ export const MerchantsListTable: React.FC<UsersTableProps> = ({
       <div className="flex sm:justify-between justify-end items-center mb-5">
         <div className="sm:flex items-center hidden">
           <div className="h-2 w-2 bg-[#1e2639] rounded-full mr-2"></div>
-          <h2 className="text-[13px] font-[500]">Users Info</h2>
+          <h2 className="text-[13px] font-[500]">Merchants Info</h2>
         </div>
         <div className="flex items-center justify-end gap-2">
           <Input
@@ -250,7 +252,7 @@ export const MerchantsListTable: React.FC<UsersTableProps> = ({
             onChange={(e) => setDeleteConfirmationText(e.target.value)}
           />
           <p className="text-red-500 text-[12px] font-bold">
-            Warning: This action will permanently delete the user record.
+            Warning: This action will permanently delete the merchant record.
           </p>
         </div>
       </Modal>

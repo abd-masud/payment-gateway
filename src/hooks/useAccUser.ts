@@ -7,7 +7,7 @@ export const useAccUserRedirect = () => {
     const router = useRouter();
     const pathname = usePathname();
     useEffect(() => {
-        const accUser = localStorage.getItem("acc_user");
+        const accUser = localStorage.getItem("pg_user");
         if (!accUser && pathname !== "/auth/employee-login") {
             router.push("/");
         }

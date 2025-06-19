@@ -33,7 +33,7 @@ export const authOptions: AuthOptions = {
                         [credentials.email]
                     );
 
-                    if (result.length === 0) throw new Error("Invalid email or password.");
+                    if (result.length == 0) throw new Error("Invalid email or password.");
 
                     const user = result[0];
                     const isPasswordValid = await compare(credentials.password, user.password);
@@ -64,14 +64,14 @@ export const authOptions: AuthOptions = {
     callbacks: {
         // Handle Google sign-in (create user if new)
         async signIn({ user, account }) {
-            if (account?.provider === "google") {
+            if (account?.provider == "google") {
                 try {
                     const existingUsers = await runQuery(
                         "SELECT * FROM users WHERE email = $1",
                         [user.email]
                     );
 
-                    if (existingUsers.length === 0) {
+                    if (existingUsers.length == 0) {
                         const newUser = await runQuery(
                             `INSERT INTO users (name, email, role, image) 
                              VALUES ($1, $2, $3, $4) 
@@ -140,10 +140,10 @@ export const authOptions: AuthOptions = {
     },
     cookies: {
         sessionToken: {
-            name: "ACCSoftware.Auth",
+            name: "PGSoftware.Auth",
             options: {
                 httpOnly: true,
-                secure: process.env.NODE_ENV === "production",
+                secure: process.env.NODE_ENV == "production",
                 sameSite: "lax",
                 path: "/",
             },

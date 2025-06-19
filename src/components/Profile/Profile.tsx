@@ -184,7 +184,7 @@ export const ProfileCompound = () => {
       if (response.ok) {
         const result = await response.json();
         if (result.success) {
-          localStorage.setItem("acc_user", result.token);
+          localStorage.setItem("pg_user", result.token);
           setIsEditMode(false);
           window.location.href = "/profile";
         } else {

@@ -1,7 +1,7 @@
-import { connectionToDatabase } from '@/util/db';
-import { compare } from 'bcryptjs';
 import jwt from 'jsonwebtoken';
+import { compare } from 'bcryptjs';
 import { NextRequest } from 'next/server';
+import { connectionToDatabase } from '@/util/db';
 
 const SECRET_KEY = process.env.SECRET_KEY as string;
 if (!SECRET_KEY) {
@@ -25,11 +25,11 @@ export async function POST(request: NextRequest) {
 
         // Check if the users exists in the database
         const userQuery = await db.query(
-            'SELECT * FROM "users" WHERE email = $1',
+            'SELECT * FROM "users" WHERE TRIM(email) = $1',
             [requestBody.email]
         );
 
-        if (userQuery.rows.length === 0) {
+        if (userQuery.rows.length == 0) {
             return new Response(JSON.stringify({ error: 'Invalid email or password' }), {
                 status: 401,
                 headers: { 'Content-Type': 'application/json' },
@@ -39,7 +39,7 @@ export async function POST(request: NextRequest) {
         const users = userQuery.rows[0];
 
         // Validate the password
-        const isPasswordValid = await compare(requestBody.password, users.password);
+        const isPasswordValid = await compare(requestBody.password, users.password.trim());
         if (!isPasswordValid) {
             return new Response(JSON.stringify({ error: 'Invalid email or password' }), {
                 status: 401,
@@ -52,12 +52,8 @@ export async function POST(request: NextRequest) {
             {
                 id: users.id,
                 name: users.name,
-                last_name: users.last_name,
                 email: users.email,
                 contact: users.contact,
-                company: users.company,
-                logo: users.logo,
-                address: users.address,
                 role: users.role,
                 image: users.image
             },
@@ -69,12 +65,8 @@ export async function POST(request: NextRequest) {
         const userData = {
             id: users.id,
             name: users.name,
-            last_name: users.last_name,
             email: users.email,
             contact: users.contact,
-            company: users.company,
-            logo: users.logo,
-            address: users.address,
             role: users.role,
             image: users.image
         };

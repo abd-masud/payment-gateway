@@ -64,7 +64,7 @@ export const NewPasswordComponent = () => {
       });
 
       if (response.ok) {
-        localStorage.removeItem("acc_user");
+        localStorage.removeItem("pg_user");
         localStorage.removeItem("userEmail");
         await signOut({
           redirect: false,

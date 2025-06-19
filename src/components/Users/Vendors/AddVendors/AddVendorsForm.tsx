@@ -7,7 +7,7 @@ import { useRouter } from "next/navigation";
 import { useEffect, useId, useState } from "react";
 import { useAuth } from "@/contexts/AuthContext";
 import Select, { StylesConfig } from "react-select";
-import success from "../../../../public/images/success.webp";
+import success from "../../../../../public/images/success.webp";
 
 type StatusOption = {
   label: string;
@@ -15,7 +15,7 @@ type StatusOption = {
 };
 
 type FormValues = {
-  merchant_id: string;
+  vendor_id: string;
   name: string;
   email: string;
   contact: string;
@@ -23,17 +23,17 @@ type FormValues = {
   password: string;
 };
 
-export const AddMerchantsForm = () => {
+export const AddVendorsForm = () => {
   const instanceId = useId();
   const { user } = useAuth();
   const router = useRouter();
   const [loading, setLoading] = useState(false);
-  const [merchant_id, setMerchantId] = useState("");
+  const [vendor_id, setVendorId] = useState("");
   const [showSuccessModal, setShowSuccessModal] = useState(false);
   const [userMessage, setUserMessage] = useState<string | null>(null);
 
   const [formValues, setFormValues] = useState<FormValues>({
-    merchant_id: "",
+    vendor_id: "",
     name: "",
     email: "",
     contact: "",
@@ -42,12 +42,12 @@ export const AddMerchantsForm = () => {
   });
 
   useEffect(() => {
-    const generateMerchantId = () => {
+    const generateVendorId = () => {
       const random = Math.floor(100000 + Math.random() * 900000);
-      return `MT${random}`;
+      return `VN${random}`;
     };
 
-    setMerchantId(generateMerchantId());
+    setVendorId(generateVendorId());
   }, [user]);
 
   const statusOptions: StatusOption[] = [
@@ -67,8 +67,8 @@ export const AddMerchantsForm = () => {
 
     const payload = {
       ...formValues,
-      merchant_id: merchant_id,
-      role: "merchant",
+      vendor_id: vendor_id,
+      role: "vendor",
     };
 
     try {
@@ -97,7 +97,7 @@ export const AddMerchantsForm = () => {
 
   const handleOkay = () => {
     setShowSuccessModal(false);
-    router.push("/merchants");
+    router.push("/users/vendors");
   };
 
   const handleCloseMessage = () => {
@@ -158,29 +158,29 @@ export const AddMerchantsForm = () => {
       )}
       <div className="flex items-center pb-5">
         <div className="h-2 w-2 bg-[#1E2639] rounded-full mr-2"></div>
-        <h2 className="text-[13px] font-[500]">Add Merchant Form</h2>
+        <h2 className="text-[13px] font-[500]">Add Vendor Form</h2>
       </div>
       <form onSubmit={handleSubmit}>
         <div className="grid sm:grid-cols-2 grid-cols-1 sm:gap-4 gap-0">
           <div className="mb-4">
-            <label className="text-[14px]" htmlFor="merchant_id">
-              Merchant ID
+            <label className="text-[14px]" htmlFor="vendor_id">
+              Vendor ID
             </label>
             <input
-              placeholder="Enter Merchant id"
+              placeholder="Enter Vendor id"
               className="border text-[14px] py-3 px-[10px] w-full bg-gray-300 text-gray-500 hover:border-[#B9C1CC] focus:outline-none focus:border-[#B9C1CC] rounded-md transition-all duration-300 mt-2"
               type="text"
-              id="merchant_id"
-              value={merchant_id}
+              id="vendor_id"
+              value={vendor_id}
               readOnly
             />
           </div>
           <div className="mb-4">
             <label className="text-[14px]" htmlFor="name">
-              Merchant Name
+              Vendor Name
             </label>
             <input
-              placeholder="Enter merchant name"
+              placeholder="Enter vendor name"
               maxLength={50}
               className="border text-[14px] py-3 px-[10px] w-full bg-[#F2F4F7] hover:border-[#B9C1CC] focus:outline-none focus:border-[#B9C1CC] rounded-md transition-all duration-300 mt-2"
               type="text"
@@ -301,7 +301,7 @@ export const AddMerchantsForm = () => {
           <Image src={success} alt="Success" width={80} height={80} />
           <h3 className="text-xl font-semibold mt-2">Success!</h3>
           <p className="text-gray-600 text-center">
-            Merchant has been added successfully.
+            Vendor has been added successfully.
           </p>
         </div>
       </Modal>

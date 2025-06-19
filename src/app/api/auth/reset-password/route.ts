@@ -21,7 +21,7 @@ export async function POST(req: Request) {
         const emailResults = await runQuery(checkEmailQuery, [email]);
 
         // If users not found, return a 404 response
-        if ((emailResults as User[]).length === 0) {
+        if ((emailResults as User[]).length == 0) {
             return NextResponse.json(
                 { message: "User not found" },
                 { status: 404 }

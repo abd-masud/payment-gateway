@@ -3,17 +3,17 @@
 import { useAuth } from "@/contexts/AuthContext";
 import { useAccUserRedirect } from "@/hooks/useAccUser";
 import { Breadcrumb } from "./Breadcrumb";
-import { MerchantsListTable } from "./MerchantsListTable";
+import { VendorsListTable } from "./VendorsListTable";
 import { useCallback, useEffect, useState } from "react";
 import { UserApiResponse, Users } from "@/types/users";
 
-export const MerchantsListComponent = () => {
+export const VendorsListComponent = () => {
   const { user } = useAuth();
-  const [merchantsData, setMerchantsData] = useState<Users[]>([]);
+  const [vendorsData, setVendorsData] = useState<Users[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   useAccUserRedirect();
 
-  const fetchMerchants = useCallback(async () => {
+  const fetchVendors = useCallback(async () => {
     if (!user?.id) return;
     setLoading(true);
 
@@ -31,7 +31,7 @@ export const MerchantsListComponent = () => {
         throw new Error(json.message || "Failed to fetch vendors");
       }
 
-      setMerchantsData(json.data);
+      setVendorsData(json.data);
     } catch (error) {
       console.error("Error:", error);
     } finally {
@@ -40,14 +40,14 @@ export const MerchantsListComponent = () => {
   }, [user?.id]);
 
   useEffect(() => {
-    fetchMerchants();
-  }, [fetchMerchants]);
+    fetchVendors();
+  }, [fetchVendors]);
   return (
     <main className="bg-[#F2F4F7] min-h-screen p-5">
       <Breadcrumb />
-      <MerchantsListTable
-        users={merchantsData}
-        fetchUsers={fetchMerchants}
+      <VendorsListTable
+        users={vendorsData}
+        fetchUsers={fetchVendors}
         loading={loading}
       />
     </main>

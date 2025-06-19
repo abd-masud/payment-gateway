@@ -1,11 +1,8 @@
 import Link from "next/link";
-import {
-  FiDollarSign,
-  FiPieChart,
-  FiUsers,
-  FiPlus,
-  FiTrendingUp,
-} from "react-icons/fi";
+import { FaRegBell } from "react-icons/fa6";
+import { FiUsers } from "react-icons/fi";
+import { IoLocationOutline } from "react-icons/io5";
+import { MdSupportAgent } from "react-icons/md";
 
 type QuickAction = {
   title: string;
@@ -19,8 +16,8 @@ type QuickAction = {
 export const QuickActions = () => {
   const quickActions: QuickAction[] = [
     {
-      title: "Add Customers",
-      description: "Create new customer profiles",
+      title: "Add Vendors",
+      description: "Create new vendor profiles",
       icon: (
         <FiUsers
           className="group-hover:scale-110 transition-transform"
@@ -28,49 +25,48 @@ export const QuickActions = () => {
         />
       ),
       textColor: "text-blue-600",
-      link: "/customers/add-customers",
+      link: "/users/vendors/add-vendors",
       effect: "bg-blue-50 hover:bg-blue-100 border-blue-300",
     },
     {
-      title: "Create Invoice",
-      description: "Generate new invoices",
+      title: "IP Whitelist",
+      description: "Accept the new IP",
       icon: (
-        <FiDollarSign
+        <IoLocationOutline
           className="group-hover:scale-110 transition-transform"
           size={24}
         />
       ),
       textColor: "text-emerald-600",
-      link: "/invoices/create-invoices",
+      link: "/ip-whitelist-request",
       effect: "bg-emerald-50 hover:bg-emerald-100 border-emerald-300",
     },
     {
-      title: "Add Products",
+      title: "Support Request",
       description: "Expand your catalog",
       icon: (
         <>
-          <FiPieChart
+          <MdSupportAgent
             className="group-hover:scale-110 transition-transform"
             size={24}
           />
-          <FiPlus className="absolute -top-1 -right-1 text-xs bg-white rounded-full p-0.5 border" />
         </>
       ),
       textColor: "text-amber-600",
-      link: "/products/add-products",
+      link: "/support-request",
       effect: "bg-amber-50 hover:bg-amber-100 border-amber-300",
     },
     {
-      title: "Sales Report",
+      title: "Notifications",
       description: "View business insights",
       icon: (
-        <FiTrendingUp
+        <FaRegBell
           className="group-hover:scale-110 transition-transform"
           size={24}
         />
       ),
       textColor: "text-purple-600",
-      link: "/sales-report",
+      link: "/notifications",
       effect: "bg-purple-50 hover:bg-purple-100 border-purple-300",
     },
   ];

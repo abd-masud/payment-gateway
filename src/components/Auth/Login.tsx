@@ -1,24 +1,24 @@
 "use client";
 
-import Image from "next/image";
-import logo from "../../../public/images/logo.webp";
-import google from "../../../public/images/google.svg";
 import Link from "next/link";
+import Image from "next/image";
+import { FaXmark } from "react-icons/fa6";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { FaXmark } from "react-icons/fa6";
 import { useAuth } from "@/contexts/AuthContext";
+import logo from "../../../public/images/logo.webp";
 import { signIn, useSession } from "next-auth/react";
+import google from "../../../public/images/google.svg";
 
 export const LoginComponent = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [error, setError] = useState<string | null>(null);
   const router = useRouter();
   const { setUser } = useAuth();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const { data: session, status } = useSession();
-  const [googleLoading, setGoogleLoading] = useState(false);
   const [signLoading, setSignLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [googleLoading, setGoogleLoading] = useState(false);
 
   const handleSignIn = async () => {
     if (googleLoading) return;
@@ -43,7 +43,7 @@ export const LoginComponent = () => {
 
   useEffect(() => {
     if (status == "authenticated" && session?.user?.accessToken) {
-      localStorage.setItem("acc_user", session.user.accessToken);
+      localStorage.setItem("pg_user", session.user.accessToken);
       window.location.href = "/dashboard";
     }
   }, [session, status, router]);
@@ -69,8 +69,8 @@ export const LoginComponent = () => {
       if (response.ok) {
         const { token, user: userData } = await response.json();
         setUser(userData);
-        localStorage.setItem("acc_user", token);
-        router.push("/dashboard");
+        localStorage.setItem("pg_user", token);
+        window.location.href = "/dashboard";
       } else {
         const errorData = await response.json().catch(() => ({}));
         setError(errorData.message || "Invalid email or password");

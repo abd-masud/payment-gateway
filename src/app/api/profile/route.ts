@@ -77,7 +77,7 @@ export async function PUT(request: NextRequest) {
 
         const result = await client.query(query, params);
 
-        if (result.rowCount === 1) {
+        if (result.rowCount == 1) {
             const users = result.rows[0];
 
             // Generate new JWT token with updated users data

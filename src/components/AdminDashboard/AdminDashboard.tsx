@@ -1,10 +1,10 @@
 "use client";
 
+import { useAuth } from "@/contexts/AuthContext";
+import { useAccUserRedirect } from "@/hooks/useAccUser";
 import { Company } from "./Company";
 import { MetricsCards } from "./MetricsCards";
 import { QuickActions } from "./QuickActions";
-import { useAuth } from "@/contexts/AuthContext";
-import { useAccUserRedirect } from "@/hooks/useAccUser";
 import { Overviews } from "./Overviews";
 
 export const AdminDashboardComponent = () => {
@@ -17,8 +17,8 @@ export const AdminDashboardComponent = () => {
     <main className="bg-gray-50 min-h-screen p-6">
       <Company />
       <MetricsCards />
-      {user.role?.trim() == "admin" && <QuickActions />}
-      <Overviews />
+      <QuickActions />
+      {/* <Overviews /> */}
     </main>
   );
 };

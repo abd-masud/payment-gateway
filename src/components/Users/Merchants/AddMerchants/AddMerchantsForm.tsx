@@ -3,7 +3,7 @@
 // import { useAuth } from "@/contexts/AuthContext";
 // import { useRouter } from "next/navigation";
 
-export const VendorsListTable = () => {
+export const AddMerchantsForm = () => {
   //   const { user } = useAuth();
   //   const router = useRouter();
 

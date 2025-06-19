@@ -97,7 +97,7 @@ export async function DELETE(request: NextRequest) {
         );
 
         // If no rows were affected, return a not found response
-        if (result.rowCount === 0) {
+        if (result.rowCount == 0) {
             return NextResponse.json(
                 { error: "No users found with the specified ID" },
                 { status: 404 }

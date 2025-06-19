@@ -7,7 +7,7 @@ import Image from "next/image";
 import dummy from "../../../public/images/dummy.webp";
 import { useAuth } from "@/contexts/AuthContext";
 import { FaUser } from "react-icons/fa";
-import { FaKey } from "react-icons/fa6";
+import { FaBell, FaKey } from "react-icons/fa6";
 import { FaRightFromBracket } from "react-icons/fa6";
 import { signOut } from "next-auth/react";
 import { VscThreeBars } from "react-icons/vsc";
@@ -38,7 +38,7 @@ export const Header = ({ toggleSidebar }: HeaderProps) => {
 
   const handleSignOut = async () => {
     try {
-      localStorage.removeItem("acc_user");
+      localStorage.removeItem("pg_user");
       localStorage.removeItem("userEmail");
       await signOut({
         redirect: false,
@@ -84,13 +84,13 @@ export const Header = ({ toggleSidebar }: HeaderProps) => {
 
   return (
     <>
-      <main className="flex justify-between items-center h-[70px] p-5 shadow-md w-full bg-white border-b border-[#dddddd]">
+      <main className="flex justify-between items-center h-[70px] p-5 shadow-md w-full bg-[#131226] border-b border-[#dddddd]">
         <div className="flex items-center">
           <button
             className="text-[#6E6F78] px-3 py-1 border rounded-md"
             onClick={toggleSidebar}
           >
-            <VscThreeBars className="fill-black" />
+            <VscThreeBars className="fill-white" />
           </button>
           <div className="ml-4 sm:block hidden">
             {user.logo ? (
@@ -107,12 +107,15 @@ export const Header = ({ toggleSidebar }: HeaderProps) => {
             )}
           </div>
         </div>
-        <div className="flex items-center gap-3">
+        <div className="flex items-center md:gap-5 gap-3">
+          <Link href={"/notifications"}>
+            <FaBell className="h-5 w-5 fill-white" />
+          </Link>
           <button onClick={toggleFullScreen}>
             {isFullScreen ? (
-              <MdOutlineFullscreenExit className="h-8 w-8 fill-black" />
+              <MdOutlineFullscreenExit className="h-8 w-8 fill-white" />
             ) : (
-              <MdFullscreen className="h-8 w-8 fill-black" />
+              <MdFullscreen className="h-8 w-8 fill-white" />
             )}
           </button>
           <Popover
@@ -120,7 +123,7 @@ export const Header = ({ toggleSidebar }: HeaderProps) => {
             trigger="click"
             placement="bottomRight"
           >
-            <button className="flex items-center border-2 border-[#307DF1] rounded-full overflow-hidden">
+            <button className="flex items-center border-2 border-white rounded-full overflow-hidden">
               <Image
                 className="h-10 w-10"
                 src={user?.image?.trim() || dummy}

@@ -13,9 +13,9 @@ import {
   FaGear,
   FaKey,
   FaMoneyBillTransfer,
+  FaUsers,
 } from "react-icons/fa6";
 import { FaChevronDown, FaLink } from "react-icons/fa";
-import { FaBasketShopping } from "react-icons/fa6";
 import {
   MdAccountBalanceWallet,
   MdDynamicFeed,
@@ -89,91 +89,46 @@ export const SideBar = ({ closeSidebar }: SideBarProps) => {
           </Link>
 
           <button
-            onClick={() => toggleSection("vendors")}
+            onClick={() => toggleSection("users")}
             className={`text-[13px] text-[#797c8b] hover:text-white font-[500] flex items-center justify-between pr-5 transition duration-300 group h-11 w-full border-t border-[#252D37] ${
-              pathname.includes("/vendors") ? "text-white bg-[#1E2639]" : ""
+              pathname.includes("/users") ? "text-white bg-[#1E2639]" : ""
             }`}
           >
             <div className="flex items-center">
               <div
                 className={`h-[23px] w-[3px] group-hover:bg-[#307DF1] transition duration-300 ${
-                  pathname.includes("/vendors")
+                  pathname.includes("/users")
                     ? "bg-[#307DF1]"
                     : "bg-transparent"
                 }`}
               ></div>
-              <FaBasketShopping className="ml-[21px] text-[15px] mr-3 w-5" />
-              Vendors
+              <FaUsers className="ml-[21px] text-[13px] mr-3 w-5" />
+              Users
             </div>
             <FaChevronDown />
           </button>
           <div
             className={`overflow-hidden transition-all duration-500 transform ${
-              openSection == "vendors"
+              openSection == "users"
                 ? "max-h-[90px] opacity-100"
                 : "max-h-0 opacity-0"
             }`}
           >
             <div className="pl-[56px] bg-[#1D1B31] text-[13px]">
               <Link
-                className={subLinkClass("/vendors/add-vendors")}
-                href="/vendors/add-vendors"
+                className={subLinkClass("/users/vendors")}
+                href="/users/vendors"
                 onClick={handleLinkClick}
               >
-                Add Vendors
+                Vendors
               </Link>
 
               <Link
-                className={subLinkClass("/vendors/vendors-list")}
-                href="/vendors/vendors-list"
+                className={subLinkClass("/users/merchants")}
+                href="/users/merchants"
                 onClick={handleLinkClick}
               >
-                Vendors List
-              </Link>
-            </div>
-          </div>
-
-          <button
-            onClick={() => toggleSection("merchants")}
-            className={`text-[13px] text-[#797c8b] hover:text-white font-[500] flex items-center justify-between pr-5 transition duration-300 group h-11 w-full border-t border-[#252D37] ${
-              pathname.includes("/merchants") ? "text-white bg-[#1E2639]" : ""
-            }`}
-          >
-            <div className="flex items-center">
-              <div
-                className={`h-[23px] w-[3px] group-hover:bg-[#307DF1] transition duration-300 ${
-                  pathname.includes("/merchants")
-                    ? "bg-[#307DF1]"
-                    : "bg-transparent"
-                }`}
-              ></div>
-              <RiShoppingBag3Fill className="ml-[21px] text-[16px] mr-3 w-5" />
-              Merchants
-            </div>
-            <FaChevronDown />
-          </button>
-          <div
-            className={`overflow-hidden transition-all duration-500 transform ${
-              openSection == "merchants"
-                ? "max-h-[90px] opacity-100"
-                : "max-h-0 opacity-0"
-            }`}
-          >
-            <div className="pl-[56px] bg-[#1D1B31] text-[13px]">
-              <Link
-                className={subLinkClass("/merchants/add-merchants")}
-                href="/merchants/add-merchants"
-                onClick={handleLinkClick}
-              >
-                Add Merchants
-              </Link>
-
-              <Link
-                className={subLinkClass("/merchants/merchants-list")}
-                href="/merchants/merchants-list"
-                onClick={handleLinkClick}
-              >
-                Merchants List
+                Merchants
               </Link>
             </div>
           </div>
@@ -377,49 +332,20 @@ export const SideBar = ({ closeSidebar }: SideBarProps) => {
             Dashboard
           </Link>
 
-          <button
-            onClick={() => toggleSection("merchants")}
-            className={`text-[13px] text-[#797c8b] hover:text-white font-[500] flex items-center justify-between pr-5 transition duration-300 group h-11 w-full border-t border-[#252D37] ${
-              pathname.includes("/merchants") ? "text-white bg-[#1E2639]" : ""
-            }`}
-          >
-            <div className="flex items-center">
-              <div
-                className={`h-[23px] w-[3px] group-hover:bg-[#307DF1] transition duration-300 ${
-                  pathname.includes("/merchants")
-                    ? "bg-[#307DF1]"
-                    : "bg-transparent"
-                }`}
-              ></div>
-              <RiShoppingBag3Fill className="ml-[21px] text-[16px] mr-3 w-5" />
-              Merchants
-            </div>
-            <FaChevronDown />
-          </button>
-          <div
-            className={`overflow-hidden transition-all duration-500 transform ${
-              openSection == "merchants"
-                ? "max-h-[90px] opacity-100"
-                : "max-h-0 opacity-0"
-            }`}
-          >
-            <div className="pl-[56px] bg-[#1D1B31] text-[13px]">
-              <Link
-                className={subLinkClass("/merchants/add-merchants")}
-                href="/merchants/add-merchants"
-                onClick={handleLinkClick}
-              >
-                Add Merchants
-              </Link>
-
-              <Link
-                className={subLinkClass("/merchants/merchants-list")}
-                href="/merchants/merchants-list"
-                onClick={handleLinkClick}
-              >
-                Merchants List
-              </Link>
-            </div>
+          <div className="mt-auto">
+            <Link
+              href="/merchants"
+              className={`${linkClass(
+                "/merchants"
+              )} flex items-center justify-between`}
+              onClick={handleLinkClick}
+            >
+              <div className="flex items-center">
+                <div className={linkBar("/merchants")}></div>
+                <RiShoppingBag3Fill className="ml-[21px] text-[18px] mr-3 w-5" />
+                Merchants
+              </div>
+            </Link>
           </div>
 
           <button

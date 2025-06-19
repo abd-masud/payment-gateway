@@ -25,7 +25,7 @@ export async function POST(req: Request) {
     );
 
     // Check if the OTP exists and is not expired
-    if (otpQuery.rows.length === 0) {
+    if (otpQuery.rows.length == 0) {
       return NextResponse.json(
         { message: "Invalid or expired OTP" },
         { status: 400 }

@@ -4,20 +4,20 @@ import styled from "styled-components";
 import { FaEdit } from "react-icons/fa";
 import { FaXmark } from "react-icons/fa6";
 import React, { useState, useMemo } from "react";
-import { EditMerchantModal } from "./EditMerchantModal";
+import { EditVendorModal } from "./EditVendorModal";
 import { MdOutlineDeleteSweep } from "react-icons/md";
 import { Users, UsersTableProps } from "@/types/users";
 import { Table, TableColumnsType, Modal, Input, Button, Tooltip } from "antd";
 
-export const MerchantsListTable: React.FC<UsersTableProps> = ({
+export const VendorsListTable: React.FC<UsersTableProps> = ({
   users,
   fetchUsers,
   loading,
 }) => {
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
-  const [currentUser, setCurrentUser] = useState<Users | null>(null);
-  const [userToDelete, setUserToDelete] = useState<Users | null>(null);
+  const [currentVendor, setCurrentVendor] = useState<Users | null>(null);
+  const [vendorToDelete, setVendorToDelete] = useState<Users | null>(null);
   const [searchText, setSearchText] = useState("");
   const [deleteConfirmationText, setDeleteConfirmationText] = useState("");
   const [userMessage, setUserMessage] = useState<string | null>(null);
@@ -33,28 +33,28 @@ export const MerchantsListTable: React.FC<UsersTableProps> = ({
     }
   `;
 
-  const showEditModal = (user: Users) => {
-    setCurrentUser(user);
+  const showEditModal = (vendor: Users) => {
+    setCurrentVendor(vendor);
     setIsEditModalOpen(true);
   };
 
-  const showDeleteModal = (user: Users) => {
-    setUserToDelete(user);
+  const showDeleteModal = (vendor: Users) => {
+    setVendorToDelete(vendor);
     setDeleteConfirmationText("");
     setIsDeleteModalOpen(true);
   };
 
-  const filteredUsers = useMemo(() => {
-    const onlyUsers = users.filter(
-      (users) => users?.role?.trim() == "merchant"
+  const filteredVendors = useMemo(() => {
+    const onlyVendors = users.filter(
+      (users) => users?.role?.trim() == "vendor"
     );
 
-    const sortedUsers = [...onlyUsers].sort((a, b) => b.id - a.id);
+    const sortedVendors = [...onlyVendors].sort((a, b) => b.id - a.id);
 
-    if (!searchText) return sortedUsers;
+    if (!searchText) return sortedVendors;
 
-    return sortedUsers.filter((user) =>
-      Object.values(user).some(
+    return sortedVendors.filter((vendor) =>
+      Object.values(vendor).some(
         (value) =>
           value &&
           value.toString().toLowerCase().includes(searchText.toLowerCase())
@@ -62,21 +62,21 @@ export const MerchantsListTable: React.FC<UsersTableProps> = ({
     );
   }, [users, searchText]);
 
-  const handleEditSubmit = async (updatedUser: Users) => {
+  const handleEditSubmit = async (updatedVendor: Users) => {
     try {
       const response = await fetch("/api/users", {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(updatedUser),
+        body: JSON.stringify(updatedVendor),
       });
 
       if (!response.ok) {
-        throw new Error("Failed to update user");
+        throw new Error("Failed to update vendor");
       }
 
-      setUserMessage("User updated");
+      setUserMessage("Vendor updated");
       setIsEditModalOpen(false);
       fetchUsers();
     } catch (err) {
@@ -88,7 +88,7 @@ export const MerchantsListTable: React.FC<UsersTableProps> = ({
   };
 
   const handleDelete = async () => {
-    if (!userToDelete) return;
+    if (!vendorToDelete) return;
 
     try {
       const response = await fetch("/api/users", {
@@ -96,14 +96,14 @@ export const MerchantsListTable: React.FC<UsersTableProps> = ({
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ id: userToDelete.id }),
+        body: JSON.stringify({ id: vendorToDelete.id }),
       });
 
       if (!response.ok) {
-        throw new Error("Failed to delete user");
+        throw new Error("Failed to delete vendor");
       }
 
-      setUserMessage("User deleted");
+      setUserMessage("Vendor deleted");
       setIsDeleteModalOpen(false);
       setDeleteConfirmationText("");
       fetchUsers();
@@ -121,11 +121,11 @@ export const MerchantsListTable: React.FC<UsersTableProps> = ({
       render: (_, __, index) => index + 1,
     },
     {
-      title: "Merchant ID",
-      dataIndex: "merchant_id",
+      title: "Vendor ID",
+      dataIndex: "vendor_id",
     },
     {
-      title: "User Name",
+      title: "Vendor Name",
       dataIndex: "name",
     },
     {
@@ -139,6 +139,8 @@ export const MerchantsListTable: React.FC<UsersTableProps> = ({
     {
       title: "Status",
       dataIndex: "status",
+      render: (status: string) =>
+        status.charAt(0).toUpperCase() + status.slice(1),
     },
     {
       title: "Action",
@@ -189,7 +191,7 @@ export const MerchantsListTable: React.FC<UsersTableProps> = ({
       <div className="flex sm:justify-between justify-end items-center mb-5">
         <div className="sm:flex items-center hidden">
           <div className="h-2 w-2 bg-[#1e2639] rounded-full mr-2"></div>
-          <h2 className="text-[13px] font-[500]">Users Info</h2>
+          <h2 className="text-[13px] font-[500]">Vendors Info</h2>
         </div>
         <div className="flex items-center justify-end gap-2">
           <Input
@@ -204,21 +206,21 @@ export const MerchantsListTable: React.FC<UsersTableProps> = ({
       <StyledTable
         scroll={{ x: "max-content" }}
         columns={columns}
-        dataSource={filteredUsers}
+        dataSource={filteredVendors}
         loading={loading}
         bordered
         rowKey="id"
       />
 
-      <EditMerchantModal
+      <EditVendorModal
         isOpen={isEditModalOpen}
         onClose={() => setIsEditModalOpen(false)}
-        currentUser={currentUser}
+        currentUser={currentVendor}
         onSave={handleEditSubmit}
       />
 
       <Modal
-        title="Confirm Delete User"
+        title="Confirm Delete Vendor"
         open={isDeleteModalOpen}
         onCancel={() => setIsDeleteModalOpen(false)}
         footer={[
@@ -232,7 +234,7 @@ export const MerchantsListTable: React.FC<UsersTableProps> = ({
             onClick={handleDelete}
             disabled={deleteConfirmationText !== "DELETE"}
           >
-            Delete User
+            Delete Vendor
           </Button>,
         ]}
         destroyOnHidden
@@ -250,7 +252,7 @@ export const MerchantsListTable: React.FC<UsersTableProps> = ({
             onChange={(e) => setDeleteConfirmationText(e.target.value)}
           />
           <p className="text-red-500 text-[12px] font-bold">
-            Warning: This action will permanently delete the user record.
+            Warning: This action will permanently delete the vendor record.
           </p>
         </div>
       </Modal>
